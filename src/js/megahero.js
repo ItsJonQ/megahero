@@ -554,7 +554,7 @@
             // Create a new MegaHero class
             megaHero = new MegaHero(this);
             // Set the megaHero in the jQuery object's data
-            $this.data(_settings.dataName, megaHhero);
+            $this.data(_settings.dataName, megaHero);
         });
 
     };
