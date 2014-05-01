@@ -47,9 +47,21 @@
         var _className = {
             content: 'megahero-content',
             cover: 'megahero-cover',
+            dim: 'dim',
             main: 'megahero',
             panel: 'megahero-hero-panel',
             placeholder: 'megahero-placeholder'
+        };
+
+        /**
+         * _dataAttr
+         * These are private data attributes megahero uses
+         */
+        var _dataAttr = {
+            dim: 'data-megahero-dim',
+            image: 'data-megahero-image',
+            height: 'data-megahero-height',
+            youtube: 'data-megahero-yt'
         };
 
         /**
@@ -301,7 +313,7 @@
          */
         MegaHero.prototype.parseHeight = function() {
             // Defining the defaults
-            var height = this.el.getAttribute('data-megahero-height');
+            var height = this.el.getAttribute(_dataAttr.height);
             var windowHeight = $window.height();
 
             // Use the default height if custom data-megahero-height is not present
@@ -385,14 +397,14 @@
             // Defining the el
             var el = this.el;
             // Getting the "dim" setteings
-            var dim = el.getAttribute('data-megahero-dim');
+            var dim = el.getAttribute(_dataAttr.dim);
             // Return false if dim settings are not present
             if(!dim) {
                 return false;
             }
 
             // Adding the "dim" class to the el
-            el.classList.add('dim');
+            el.classList.add(_className.dim);
 
             // Returning the model
             return this;
@@ -415,7 +427,7 @@
             // Defining the el
             var el = this.el;
             // Getting the image source
-            var imageSrc = el.getAttribute('data-megahero-image');
+            var imageSrc = el.getAttribute(_dataAttr.image);
             // Return false if the image source is not defined
             if(!imageSrc) {
                 return this;
@@ -430,6 +442,12 @@
 
             // Returning the model
             return this;
+        };
+
+        MegaHero.prototype.renderVideo = function() {
+
+            var youtubeUrl = el.getAttribute(_dataAttr.yt);
+
         };
 
         /**
