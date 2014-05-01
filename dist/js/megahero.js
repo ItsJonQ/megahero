@@ -43,6 +43,7 @@
         };
 
         var _className = {
+            content: 'megahero-content',
             cover: 'megahero-cover',
             main: 'megahero',
             panel: 'megahero-hero-panel'
@@ -251,8 +252,18 @@
 
         MegaHero.prototype.render = function() {
 
+            this.renderContent();
             this.renderImage();
             this.renderDim();
+
+            return this;
+
+        };
+
+        MegaHero.prototype.renderContent = function() {
+            var $el = this.$el;
+
+            $el.children().wrapAll('<div class="'+_className.content+'"></div>');
 
             return this;
 
@@ -272,12 +283,15 @@
         MegaHero.prototype.renderImage = function() {
             var el = this.el;
             var imageSrc = el.getAttribute('data-megahero-image');
+            var cover;
+            var image;
             if(!imageSrc) {
                 return this;
             }
 
-            var cover = document.createElement('div');
+            cover = document.createElement('div');
             cover.classList.add(_className.cover);
+            cover.style.backgroundImage = "url('"+imageSrc+"')";
 
             el.appendChild(cover);
 
