@@ -350,6 +350,35 @@
         };
 
         /**
+         * parseVideo
+         * This method parses a YouTube video URL to return the
+         * video's ID
+         *
+         * @model.prototype
+         * @param  { string } url [ The YouTube video URL ]
+         * @return { string }     [ This returns the YT video ID ]
+         */
+        MegaHero.prototype.parseVideo = function(url) {
+            var id;
+            // Return false if the url is invalid
+            if(!url || typeof url !== 'string') {
+                return false;
+            }
+            // Split the URL based on '/'
+            url = url.split('/');
+            // Filter string array to locate something like 'watch?=TO-KH8Eu-Xw'
+            id = url.filter(function(string) {
+                return(string.indexOf('watch?v=') >= 0);
+            });
+
+            // Use the first string from id array
+            // Example: ['watch?v', 'TO-KH8Eu-Xw'];
+            //      Split the string via =
+            //      Return the second item from the array
+            return id[0].split('=')[1];
+        };
+
+        /**
          * render
          * This method renders the MegaHero model
          *
@@ -360,6 +389,7 @@
             // Rendering..
             this.renderContent();
             this.renderImage();
+            this.renderVideo();
             this.renderDim();
 
             // Returning the model
@@ -444,9 +474,34 @@
             return this;
         };
 
+        /**
+         * renderVideo
+         * This method adds a YouTube video as the background in the
+         * MegaHero el.
+         *
+         * The user can define the image by added data-megahero-yt="" to their selector.
+         *
+         * @model.prototype
+         * @return { model }
+         */
         MegaHero.prototype.renderVideo = function() {
+            // Defining the el
+            var el = this.el;
+            // Getting the YouTube video URL
+            var ytUrl = el.getAttribute(_dataAttr.youtube);
 
-            var youtubeUrl = el.getAttribute(_dataAttr.yt);
+            console.log(ytUrl);
+            // Defining variables
+            var iframe;
+
+            // Return if the youtubeUrl is not defined
+            if(!ytUrl) {
+                return false;
+            }
+
+            var id = this.parseVideo(ytUrl);
+            iframe = document.createElement('iframe');
+
 
         };
 
