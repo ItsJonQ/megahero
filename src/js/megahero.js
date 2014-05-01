@@ -47,6 +47,7 @@
         var _className = {
             content: 'megahero-content',
             cover: 'megahero-cover',
+            coverVideo: 'megahero-cover-video',
             dim: 'dim',
             main: 'megahero',
             panel: 'megahero-hero-panel',
@@ -299,6 +300,31 @@
         };
 
         /**
+         * createYTEmbed
+         * This method creates a YouTube embed URL that's used to
+         * add YouTube video embeds as MegaHero backgrounds.
+         *
+         * @model.prototype
+         * @param  { string } [ id ] [ YouTube Video URL ]
+         * @return { string } [ YouTube embed URL ]
+         */
+        MegaHero.prototype.createYTEmbed = function(url) {
+            // Return if the url is not valid
+            if(!url || typeof url !== 'string') {
+                return false;
+            }
+            var embed;
+            // Getting the YT ID by parsing the URL
+            var id = this.parseVideo(url);
+            if(id) {
+                // Define the embed code with the YT ID
+                embed = '//youtube.com/embed/'+id+'?showinfo=0&autohide=1&volume=0';
+            }
+            // Returning the embed code
+            return embed;
+        };
+
+        /**
          * parseHeight
          * This method parses and calculates the number of pixels for the
          * height of each MegaHero model. By default, the height is defined by
@@ -493,14 +519,29 @@
             console.log(ytUrl);
             // Defining variables
             var iframe;
+            var embed;
 
             // Return if the youtubeUrl is not defined
             if(!ytUrl) {
                 return false;
             }
 
-            var id = this.parseVideo(ytUrl);
+            // Creating the YT Embed code
+            embed = this.createYTEmbed(ytUrl);
+            // Creating the YT Embed iFrame
             iframe = document.createElement('iframe');
+            iframe.src = embed;
+            iframe.frameBorder = 0;
+            iframe.height = '100%';
+            iframe.width = '100%';
+            iframe.volume = 0;
+
+            // Creating the background cover image
+            cover = document.createElement('div');
+            cover.classList.add(_className.coverVideo);
+
+            cover.appendChild(iframe);
+            el.appendChild(cover);
 
 
         };

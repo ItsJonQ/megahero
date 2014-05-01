@@ -33,3 +33,22 @@
     bottom: 0;
     z-index: 1;
 }
+
+.megahero .megahero-cover-video {
+    position: relative;
+    padding-top: 56.25%;
+    width: 100%;
+}
+
+.megahero .megahero-cover-video iframe,
+.megahero .megahero-cover-video embed,
+.megahero .megahero-cover-video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
