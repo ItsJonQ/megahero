@@ -1,0 +1,150 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/lil-b/dist/css/b.min.css">
+    <!-- <link rel="stylesheet" href="public/css/main.css"> -->
+
+    <style type="text/css">
+    .container {
+        /*max-width: 600px;*/
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    .megahero {
+        background: blue;
+        margin-bottom: 60px;
+    }
+    .container.red {
+        background-color: red;
+    }
+    .megahero-placeholder {
+        height: 30px;
+        background: purple;
+    }
+    .v-center-wrap {
+        height: 100%;
+        text-align: center;
+    }
+    .fancy {
+        padding: 60px 0;
+        color: white;
+    }
+    </style>
+
+</head>
+<body>
+<!--[if lt IE 8]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="article">
+                        <div class="megahero cut">
+                            <div class="container">
+                                <div class="jumbotron">
+                                    <h1>dasds</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="article">
+                        <div class="megahero cut" data-megahero-image="images/003.jpg" data-megahero-dim="true">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6 fancy">
+                                        <h2>Something</h2>
+                                        <p>Polaroid bicycle rights ennui vinyl, chia 3 wolf moon blog craft beer deep v occupy fanny pack bitters twee you probably haven't heard of them hashtag. Fanny pack chia American Apparel, hoodie Austin scenester locavore iPhone biodiesel try-hard street art church-key. Roof party chia Bushwick DIY, Marfa banjo Godard. Organic pork belly chillwave, fingerstache deep v banjo mustache wayfarers cred Intelligentsia meh tattooed bicycle rights Wes Anderson Marfa. Kale chips distillery locavore, street art Thundercats post-ironic Wes Anderson master cleanse PBR&B meggings next level single-origin coffee. High Life banjo gluten-free cliche leggings. Ugh yr tote bag sustainable American Apparel you probably haven't heard of them.</P>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="article">
+                        <div class="megahero cut" data-megahero-image="images/002.jpg">
+                            <div class="v-center-wrap">
+                                <div class="v-center fancy">
+                                    <h1>TRON</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="article">
+                        <div class="megahero cut" data-megahero-height="0.5">
+                            Thing #2
+                        </div>
+
+                        <div class="megahero">
+                            Thing #3
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="article col-md-10">
+                    <div class="hhhero megahero">
+                        Thing #1
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="article col-md-11">
+                    <div class="hhhero megahero">
+                        Thing #1
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="article">
+                    <div class="hhhero megahero">
+                        Thing #3
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="dist/megahero.js"></script>
+
+    <script type="text/javascript">
+
+    $('.megahero').megahero({
+        container: '.container',
+        // dynamicHeight: false,
+        height: 0.85
+    });
+
+    // $('.hhhero').megahero({
+    //     container: '.container'
+    // }).addClass('meeeee');
+
+
+    </script>
+
+</body>
+</html>
