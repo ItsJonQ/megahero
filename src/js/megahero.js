@@ -277,6 +277,9 @@
                 return false;
             }
 
+            el.classList.add('dim');
+
+            return this;
 
         };
 
@@ -295,6 +298,7 @@
 
             el.appendChild(cover);
 
+            return this;
 
         };
 

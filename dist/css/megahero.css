@@ -2,6 +2,14 @@
     position: relative;
 }
 
+.megahero.dim {
+    background-color: #000;
+}
+
+.megahero.dim .megahero-cover {
+    opacity: 0.3;
+}
+
 .megahero .megahero-content {
     position: relative;
     z-index: 2;
