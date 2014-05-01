@@ -154,42 +154,6 @@
         };
 
         /**
-         * debouncedResize
-         * This "method" utilizes the debounce method from Underscore (included
-         * in the plugin) to optimize the firing of the resizeHeros method.
-         */
-        self.debouncedResize = self.debounce(self.resizeHeros, settings.threshold);
-
-        /**
-         * initialize
-         * This method initializes the plugin.
-         *
-         * @return { self }
-         */
-        self.initialize = function() {
-            // Define/set the container for the models
-            settings.container = $(settings.container);
-
-            // Adjust the CSS height attribute based on the dynamicHeight setting
-            if(settings.dynamicHeight) {
-                _settings.heightAttr = 'min-height';
-            } else {
-                _settings.heightAttr = 'height';
-            }
-
-            // Add overflow: visible to the container (Just in case the container has overflow: hidden)
-            settings.container.css('overflow', 'visible');
-
-            // Adding events for resize and orientation change for the debounced
-            // resize method.
-            $window.on('resize', self.debouncedResize);
-            $window.bind('orientationchange', self.debouncedResize);
-
-            // Returning self
-            return self;
-        };
-
-        /**
          * resizeHeros
          * This method resizes the els of all the MegaHero models in the
          * collection
@@ -225,6 +189,43 @@
             // Return self
             return self;
         };
+
+        /**
+         * debouncedResize
+         * This "method" utilizes the debounce method from Underscore (included
+         * in the plugin) to optimize the firing of the resizeHeros method.
+         */
+        self.debouncedResize = self.debounce(self.resizeHeros, settings.threshold);
+
+        /**
+         * initialize
+         * This method initializes the plugin.
+         *
+         * @return { self }
+         */
+        self.initialize = function() {
+            // Define/set the container for the models
+            settings.container = $(settings.container);
+
+            // Adjust the CSS height attribute based on the dynamicHeight setting
+            if(settings.dynamicHeight) {
+                _settings.heightAttr = 'min-height';
+            } else {
+                _settings.heightAttr = 'height';
+            }
+
+            // Add overflow: visible to the container (Just in case the container has overflow: hidden)
+            settings.container.css('overflow', 'visible');
+
+            // Adding events for resize and orientation change for the debounced
+            // resize method.
+            $window.on('resize', self.debouncedResize);
+            $window.bind('orientationchange', self.debouncedResize);
+
+            // Returning self
+            return self;
+        };
+
 
 
 
@@ -663,8 +664,11 @@
 
 
 
+
         // Initializing the plugin
         self.initialize();
+
+
 
 
 
