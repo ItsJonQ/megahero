@@ -154,6 +154,61 @@
         };
 
         /**
+         * debouncedResize
+         * This "method" utilizes the debounce method from Underscore (included
+         * in the plugin) to optimize the firing of the resizeHeros method.
+         */
+        self.debouncedResize = self.debounce(self.resizeHeros, settings.threshold);
+
+        /**
+         * initialize
+         * This method initializes the plugin.
+         *
+         * @return { self }
+         */
+        self.initialize = function() {
+            // Define/set the container for the models
+            settings.container = $(settings.container);
+
+            // Adjust the CSS height attribute based on the dynamicHeight setting
+            if(settings.dynamicHeight) {
+                _settings.heightAttr = 'min-height';
+            } else {
+                _settings.heightAttr = 'height';
+            }
+
+            // Add overflow: visible to the container (Just in case the container has overflow: hidden)
+            settings.container.css('overflow', 'visible');
+
+            // Adding events for resize and orientation change for the debounced
+            // resize method.
+            $window.on('resize', self.debouncedResize);
+            $window.bind('orientationchange', self.debouncedResize);
+
+            // Returning self
+            return self;
+        };
+
+        /**
+         * resizeHeros
+         * This method resizes the els of all the MegaHero models in the
+         * collection
+         *
+         * @return { self }
+         */
+        self.resizeHeros = function() {
+            // Update the window width
+            self.updateWindowWidth();
+            // Loop through all the models in the collection
+            for(var i = 0, len = self.collection.length; i < len; i++) {
+                // Resize the model
+                self.collection[i].resize();
+            }
+            // Returning self
+            return self;
+        };
+
+        /**
          * updateWindowWidth
          * This method updates the stored window width variable in _settings
          *
@@ -170,6 +225,9 @@
             // Return self
             return self;
         };
+
+
+
 
         /**
          * MegaHero
@@ -193,82 +251,6 @@
 
             // Returning the model
             return this;
-        };
-
-        /**
-         * initialize
-         * This method initializes the MegaHero model
-         *
-         * @model.prototype
-         * @return { model }
-         */
-        MegaHero.prototype.initialize = function() {
-            // Defining the variables
-            var windowWidth = document.body.clientWidth;
-            var el = this.el;
-
-            // Adding the panel class to the el
-            el.classList.add(_className.panel);
-            // If the el doesn't have the main 'megahero class', add it to the el
-            if(!el.classList.contains(_className.main)) {
-                el.classList.add(_className.main);
-            }
-
-            // Creating the placeholder
-            this.createPlaceholder();
-
-            // Adding the MegaHero to the plugin's collection
-            self.addToCollection(this);
-
-            /**
-             * Check to see if the windowWidth is the same as the initial
-             * calculated windowWidth.
-             *
-             * This is necessary to account for the scroll bar width that will,
-             * in most cases, appear after the page renders.
-             */
-            if(windowWidth === _settings.windowWidth) {
-                // Resize this Hero
-                this.resize();
-            } else {
-                // Update the plugin's window width
-                self.updateWindowWidth(windowWidth);
-                // Resize all Heros that have already been rendered
-                self.resizeHeros();
-            }
-
-            // Render the model
-            this.render();
-            // Returning the model
-            return this;
-        };
-
-        /**
-         * verifyWidth
-         * This method checks to see if the width has changed at any point
-         * when the model is rendering the els
-         *
-         * @model.prototype
-         * @param  { number } width [ The width to verify ]
-         * @return { boolean }  [ True/false if the width is the same as storage ]
-         */
-        MegaHero.prototype.verifyWidth = function(width) {
-            // Return if width is invalid
-            if(!width || typeof width !== 'number') {
-                return;
-            }
-
-            // If the width is NOT the same as the one stored in _settings
-            if(width !== _settings.windowWidth) {
-                // Update the plugin's window width
-                self.updateWindowWidth(width);
-                // Resize all Heros that have already been rendered
-                self.resizeHeros();
-                // Return false
-                return false;
-            }
-            // Return true
-            return true;
         };
 
         /**
@@ -322,6 +304,54 @@
             }
             // Returning the embed code
             return embed;
+        };
+
+        /**
+         * initialize
+         * This method initializes the MegaHero model
+         *
+         * @model.prototype
+         * @return { model }
+         */
+        MegaHero.prototype.initialize = function() {
+            // Defining the variables
+            var windowWidth = document.body.clientWidth;
+            var el = this.el;
+
+            // Adding the panel class to the el
+            el.classList.add(_className.panel);
+            // If the el doesn't have the main 'megahero class', add it to the el
+            if(!el.classList.contains(_className.main)) {
+                el.classList.add(_className.main);
+            }
+
+            // Creating the placeholder
+            this.createPlaceholder();
+
+            // Adding the MegaHero to the plugin's collection
+            self.addToCollection(this);
+
+            /**
+             * Check to see if the windowWidth is the same as the initial
+             * calculated windowWidth.
+             *
+             * This is necessary to account for the scroll bar width that will,
+             * in most cases, appear after the page renders.
+             */
+            if(windowWidth === _settings.windowWidth) {
+                // Resize this Hero
+                this.resize();
+            } else {
+                // Update the plugin's window width
+                self.updateWindowWidth(windowWidth);
+                // Resize all Heros that have already been rendered
+                self.resizeHeros();
+            }
+
+            // Render the model
+            this.render();
+            // Returning the model
+            return this;
         };
 
         /**
@@ -515,8 +545,6 @@
             var el = this.el;
             // Getting the YouTube video URL
             var ytUrl = el.getAttribute(_dataAttr.youtube);
-
-            console.log(ytUrl);
             // Defining variables
             var iframe;
             var embed;
@@ -525,6 +553,8 @@
             if(!ytUrl) {
                 return false;
             }
+
+            this.hasVideo = true;
 
             // Creating the YT Embed code
             embed = this.createYTEmbed(ytUrl);
@@ -536,14 +566,16 @@
             iframe.width = '100%';
             iframe.volume = 0;
 
-            // Creating the background cover image
+            // Creating the background cover video
             cover = document.createElement('div');
             cover.classList.add(_className.coverVideo);
-
+            // Adding the iFrame into the video cover
             cover.appendChild(iframe);
+            // Adding the video cover to the el
             el.appendChild(cover);
 
-
+            // Returning the model
+            return this;
         };
 
         /**
@@ -582,9 +614,15 @@
             $el.css('marginLeft', -(Math.round(offset)));
             // Adjusting the width of the MegaHero el to full width
             $el.width(_settings.windowWidth);
-            // Adjusting the height of the MegaHero el
-            $el.css(_settings.heightAttr, that.parseHeight());
-
+            // If the Model contains a video..
+            if(!that.hasVideo) {
+                // Adjusting the height of the MegaHero el
+                $el.css(_settings.heightAttr, that.parseHeight());
+            } else {
+                // Don't adjust the height, and remove any height
+                // adjustments that might have been made
+                $el.css(_settings.heightAttr, '');
+            }
             // Add 'overflow: hidden' if the dynamicHeight setting is disabled
             if(!settings.dynamicHeight) {
                 $el.css('overflow', 'hidden');
@@ -594,66 +632,41 @@
             return this;
         };
 
-
-
         /**
-         * resizeHeros
-         * This method resizes the els of all the MegaHero models in the
-         * collection
+         * verifyWidth
+         * This method checks to see if the width has changed at any point
+         * when the model is rendering the els
          *
-         * @return { self }
+         * @model.prototype
+         * @param  { number } width [ The width to verify ]
+         * @return { boolean }  [ True/false if the width is the same as storage ]
          */
-        self.resizeHeros = function() {
-            // Update the window width
-            self.updateWindowWidth();
-            // Loop through all the models in the collection
-            for(var i = 0, len = self.collection.length; i < len; i++) {
-                // Resize the model
-                self.collection[i].resize();
-            }
-            // Returning self
-            return self;
-        };
-
-        /**
-         * debouncedResize
-         * This "method" utilizes the debounce method from Underscore (included
-         * in the plugin) to optimize the firing of the resizeHeros method.
-         */
-        self.debouncedResize = self.debounce(self.resizeHeros, settings.threshold);
-
-        /**
-         * initialize
-         * This method initializes the plugin.
-         *
-         * @return { self }
-         */
-        self.initialize = function() {
-            // Define/set the container for the models
-            settings.container = $(settings.container);
-
-            // Adjust the CSS height attribute based on the dynamicHeight setting
-            if(settings.dynamicHeight) {
-                _settings.heightAttr = 'min-height';
-            } else {
-                _settings.heightAttr = 'height';
+        MegaHero.prototype.verifyWidth = function(width) {
+            // Return if width is invalid
+            if(!width || typeof width !== 'number') {
+                return;
             }
 
-            // Add overflow: visible to the container (Just in case the container has overflow: hidden)
-            settings.container.css('overflow', 'visible');
-
-            // Adding events for resize and orientation change for the debounced
-            // resize method.
-            $window.on('resize', self.debouncedResize);
-            $window.bind('orientationchange', self.debouncedResize);
-
-            // Returning self
-            return self;
+            // If the width is NOT the same as the one stored in _settings
+            if(width !== _settings.windowWidth) {
+                // Update the plugin's window width
+                self.updateWindowWidth(width);
+                // Resize all Heros that have already been rendered
+                self.resizeHeros();
+                // Return false
+                return false;
+            }
+            // Return true
+            return true;
         };
+
+
 
 
         // Initializing the plugin
         self.initialize();
+
+
 
         // Returning the plugin jQuery objects to allow for jQuery chaining
         return this.each(function() {
