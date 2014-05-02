@@ -32,6 +32,8 @@ var _setup = function() {
 /**
  * Plugin Tests
  */
+
+// Options: Default
 module("MegaHero Default Render Dimensions", {
     setup: function() {
         _setup();
@@ -55,6 +57,46 @@ test("Hero's height should be 70% of the window's height" , function() {
 });
 
 
+// Options: Custom
+module("MegaHero Rendering Dimensions with Custom Parameters", {
+    setup: function() {
+        _setup();
+    },
+    teardown: function() {
+        $hero.remove();
+    }
+});
+// Test for custom height (number, integar)
+test("Hero's height should reflect INTEGER set as options.height", function() {
+    // Triggering the mega hero
+    $hero.megahero({
+        height: 0.35
+    });
+    equal( $hero.height(), (Math.round($(window).height() * 0.35)),
+        "Hero's height renders correctly." );
+});
+// Test for custom height (pixel)
+test("Hero's height should reflect #px set as options.height", function() {
+    // Triggering the mega hero
+    $hero.megahero({
+        height: '50px'
+    });
+    equal( $hero.height(), 50,
+        "Hero's height renders correctly." );
+});
+// Test for custom height (%)
+test("Hero's height should reflect #% set as options.height", function() {
+    // Triggering the mega hero
+    $hero.megahero({
+        height: '38%'
+    });
+    equal( $hero.height(), (Math.round($(window).height() * 0.38)),
+        "Hero's height renders correctly." );
+});
+
+
+
+// Content: Wrapping
 module("MegaHero Default Content Handling", {
     setup: function() {
         _setup();
@@ -67,7 +109,7 @@ module("MegaHero Default Content Handling", {
         $hero.remove();
     }
 });
-
+// Testing for Hero's content wrapping
 test("Hero's content should be wrapped in a div.megahero-content", function() {
     equal( $hero.find('.megahero-content').length, 1,
     "Hero's content was wrapped correctly." );
