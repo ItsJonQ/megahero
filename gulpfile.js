@@ -4,6 +4,7 @@ var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
 var cssmin = require('gulp-cssmin');
 var plumber = require('gulp-plumber');
+var qunit = require('gulp-qunit');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
@@ -35,6 +36,12 @@ gulp.task('copy', function() {
 
     gulp.src('src/**/*.css')
         .pipe(gulp.dest('./dist/'));
+});
+
+// Test
+gulp.task('test', function() {
+    return gulp.src('./test/test-runner.html')
+        .pipe(qunit());
 });
 
 // Watch
