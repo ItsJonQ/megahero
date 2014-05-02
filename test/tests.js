@@ -4,12 +4,12 @@
  * corretly in the test-runner
  */
 // jQuery
-test('jQuery presence', function() {
+test('jQuery Load Test', function() {
     equal( typeof $, 'function' , 'jQuery has been loaded correctly.' );
 });
 
 // MegaHero.js
-test('MegaHero presence', function() {
+test('MegaHero Load Test', function() {
     equal( typeof $.fn.megahero, 'function' , 'MegaHero.js plugin has been loaded correctly.' );
 });
 
@@ -34,7 +34,7 @@ var _setup = function() {
  */
 
 // Options: Default
-module("MegaHero Default Render Dimensions", {
+module("Default Render Dimensions", {
     setup: function() {
         _setup();
         // Triggering the mega hero
@@ -58,7 +58,7 @@ test("Hero's height should be 70% of the window's height" , function() {
 
 
 // Options: Custom
-module("MegaHero Rendering Dimensions with Custom Parameters", {
+module("Rendering Dimensions with Custom Parameters", {
     setup: function() {
         _setup();
     },
@@ -130,7 +130,7 @@ test("Hero's height should reflect #% set by data attribute", function() {
 
 
 // Content: Wrapping
-module("MegaHero Default Content Handling", {
+module("Default Content Handling", {
     setup: function() {
         _setup();
         // Injecting a title into the hero
