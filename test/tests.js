@@ -93,6 +93,39 @@ test("Hero's height should reflect #% set as options.height", function() {
     equal( $hero.height(), (Math.round($(window).height() * 0.38)),
         "Hero's height renders correctly." );
 });
+// Test for custom height (number, string)
+test("Hero's height should reflect number (as string) set as options.height", function() {
+    // Triggering the mega hero
+    $hero.megahero({
+        height: '0.35'
+    });
+    equal( $hero.height(), (Math.round($(window).height() * 0.35)),
+        "Hero's height renders correctly." );
+});
+// Test for custom height set by data attribute (number, integar)
+test("Hero's height should reflect number set by data attribute", function() {
+    $hero.attr('data-megahero-height', 0.5);
+    // Triggering the mega hero
+    $hero.megahero();
+    equal( $hero.height(), (Math.round($(window).height() * 0.5)),
+        "Hero's height renders correctly." );
+});
+// Test for custom height set by data attribute(pixel)
+test("Hero's height should reflect #px set by data attribute", function() {
+    $hero.attr('data-megahero-height', '50px');
+    // Triggering the mega hero
+    $hero.megahero();
+    equal( $hero.height(), 50,
+        "Hero's height renders correctly." );
+});
+// Test for custom height set by data attribute (%)
+test("Hero's height should reflect #% set by data attribute", function() {
+    $hero.attr('data-megahero-height', '38%');
+    // Triggering the mega hero
+    $hero.megahero();
+    equal( $hero.height(), (Math.round($(window).height() * 0.38)),
+        "Hero's height renders correctly." );
+});
 
 
 
